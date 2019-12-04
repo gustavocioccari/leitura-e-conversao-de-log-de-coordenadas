@@ -5,6 +5,8 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QFileDialog>
+#include <qmath.h>
+#include <QtMath>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -113,4 +115,55 @@ void MainWindow::on_botaoCalculos_clicked()
                 "\nMáxima: "+QString::number(altitude_maxima)+
                 "\nMínima: "+QString::number(altitude_minima)
                 );
+}
+
+void MainWindow::on_botaoConversao_clicked()
+{
+    //Abre o log para leitura
+    QString file_name = QFileDialog::getOpenFileName(
+                Q_NULLPTR,"Selecione um arquivo","C://");
+    QFile file(file_name);
+    if(!file.open(QIODevice::ReadOnly))
+        QMessageBox::information(0,"info",file.errorString());
+
+    //Identificação para ler o conteúdo log original
+    QTextStream in(&file);
+
+    //Cria novo arquivo
+    QString new_file_name = QFileDialog::getSaveFileName(
+                Q_NULLPTR,"Selecione uma pasta para salvar","/Desktop/conversao.txt");
+    QFile new_file(new_file_name);
+    new_file.open(QIODevice::WriteOnly | QIODevice::Text);
+
+    //Identificação para escrever no log convertido
+    QTextStream out(&new_file);
+
+    //Loop para leitura e conversão de cada linha do log
+    while (!in.atEnd()) {
+        //Lê e salva a primeira linha do log na varíavel coordenadas
+        QString coordenadas = in.readLine();
+
+        //Converte para double as strings que representam latitude e longitude respectivamente
+        double latitude = coordenadas.split(" ")[0].toDouble();
+        double longitude = coordenadas.split(" ")[1].toDouble();
+
+        //Converte latitude para graus, minutos e segundos
+        int lat_degree = (int)latitude;
+        int lat_minutes = (int) ( (latitude - (double)lat_degree) * 60.0);
+        double lat_seconds = (double) ( (latitude - (double)lat_degree - (double)lat_minutes / 60.0) * 60.0 * 60.0 );
+
+        //Converte longitude para graus, minutos e segundos
+        int long_degree = (int)longitude;
+        int long_minutes = (int) ( (longitude - (double)long_degree) * 60.0);
+        double long_seconds = (double) ( (longitude - (double)long_degree - (double)long_minutes / 60.0) * 60.0 * 60.0 );
+
+        //Escreve uma nova linha com a conversão no novo arquivo criado
+        out << QString::number(lat_degree)+"° "+
+               QString::number(lat_minutes)+"' "+
+               QString::number(lat_seconds, 'f', 4)+"''\t"+
+               QString::number(long_degree)+"° "+
+               QString::number(long_minutes)+"' "+
+               QString::number(long_seconds, 'f', 4)+"''\n";
+    }
+    new_file.close();
 }

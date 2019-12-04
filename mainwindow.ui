@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>520</width>
-    <height>322</height>
+    <width>449</width>
+    <height>328</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -57,13 +57,39 @@ p, li { white-space: pre-wrap; }
      <string>Selecionar arquivo</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="botaoConversao">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>150</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Selecionar arquivo</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>110</y>
+      <width>221</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Conversão para graus,  minutos e segundos</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>520</width>
+     <width>449</width>
      <height>21</height>
     </rect>
    </property>

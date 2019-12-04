@@ -18,6 +18,8 @@ public:
 private slots:
     void on_botaoCalculos_clicked();
 
+    void on_botaoConversao_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
